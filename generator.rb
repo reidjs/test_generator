@@ -49,10 +49,20 @@ categories.each do |category|
   master = master.concat(problems_in_category.sample(n))
 end
 
+#create new directory at next possible value
+test_number = 0
+test_directory = "tests/" + test_number.to_s
+while File.exists?(test_directory)
+  test_number += 1
+  test_directory = "tests/" + test_number.to_s
+end
+test_directory += "/"
+Dir.mkdir(test_directory)
+
 # create new test, spec and solution files
-practice_test = File.open("practice_test.rb", "w")
-spec = File.open("spec.rb", "w")
-solution = File.open("solution.rb", "w")
+practice_test = File.open(test_directory + "practice_test.rb", "w")
+spec = File.open(test_directory + "spec.rb", "w")
+solution = File.open(test_directory + "solution.rb", "w")
 
 # require rspec and the practice_test in the spec
 spec << "require 'rspec'" << "\n"
