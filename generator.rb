@@ -1,5 +1,6 @@
 require 'csv'
 require 'colorize'
+require 'byebug'
 
 # Instructions
 system("clear")
@@ -26,14 +27,25 @@ puts
 # get user request
 puts "Input your requests, separated by commas and spaces please"
 puts "Example input: " + "array: 2, recursion: 1, sort: 1".yellow
+puts "Example input: 5 (creates 5 randomly sampled questions)"
 input = gets.chomp.split(", ")
-
 categoryrequests = Hash.new(0)
-input.each do |request|
-  req = request.downcase.split(": ")
-  categoryrequests[req[0]] = req[1].to_i
+#create random n questions if user only enters number
+if input.length == 1
+  num_questions = input[0].to_i
+  i = 0
+  while i < num_questions
+    cat = categories.sample(1)[0]
+    categoryrequests[cat].nil? ? categoryrequests[cat] = 1 :
+      categoryrequests[cat] += 1
+    i += 1
+  end
+else
+  input.each do |request|
+    req = request.downcase.split(": ")
+    categoryrequests[req[0]] = req[1].to_i
+  end
 end
-
 # make test array for each category
 master = Array.new
 categories.each do |category|
